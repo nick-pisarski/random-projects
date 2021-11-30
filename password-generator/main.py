@@ -18,21 +18,27 @@ MAX_NAME_SIZE = 7
 MIN_NAME_SIZE = 5
 
 
-def generate_password():
-    name = NameGenerator(MIN_NAME_SIZE, MAX_NAME_SIZE).get_name()
-    num_str = NumberStringGenerator().get_number_str(4)
-    spec_char = SpecialCharGenerator().get_special_character()
-    return f"{name}{num_str}{spec_char}"
+def generate_passwords() -> list[str]:
+    names = NameGenerator(MIN_NAME_SIZE, MAX_NAME_SIZE).get_names()
+    passwords = []
+    for name in names:
+        num_str = NumberStringGenerator().get_number_str(4)
+        spec_char = SpecialCharGenerator().get_special_character()
+        passwords.append(f"{name}{num_str}{spec_char}")
+
+    return passwords
 
 
 def main():
-    print("Generate a new password.")
+    print("Generate a passwords.")
     try:
         get_new_password = "Y"
         while get_new_password == "Y":
-            print(f"---> {generate_password()}")
+            for password in generate_passwords():
+                print(f"---> {password}")
+
             get_new_password = str(
-                input("Generate another password (Y/N): ")
+                input("Generate more passwords (Y/N): ")
             ).capitalize()
     except Exception as ex:
         handle_error(ex)

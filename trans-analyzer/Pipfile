@@ -4,8 +4,15 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+black = "*"
+isort = "*"
 
 [dev-packages]
 
 [requires]
 python_version = "3.10"
+
+[scripts]
+tests = "python -m unittest -v"
+isort = "python -m isort tests lib main.py"
+black = "python -m black tests lib main.py"
