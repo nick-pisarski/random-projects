@@ -20,19 +20,18 @@ class NameGenerator:
         return len(name) >= self.min and len(name) <= self.max
 
     def _fetch_names(self) -> list[str]:
-        log.info(f'calling {NAMES_URL}')
+        log.info(f"calling {NAMES_URL}")
         try:
             resp = requests.get(f"{NAMES_URL }&results={self.num_names}").json()
         except:
-            log.exception(f'Failed to call {NAMES_URL}')
-            raise Exception('Names call failed')
-        
+            log.exception(f"Failed to call {NAMES_URL}")
+            raise Exception("Names call failed")
+
         return [name["name"]["first"] for name in resp["results"]]
 
     def get_names(self, name_count: int = 5) -> list[str]:
         valid_names = list(filter(self._validate_length, self._fetch_names()))
         while len(valid_names) < name_count:
             valid_names = list(filter(self._validate_length, self._fetch_names()))
-
 
         return [name.capitalize() for name in valid_names][:name_count]

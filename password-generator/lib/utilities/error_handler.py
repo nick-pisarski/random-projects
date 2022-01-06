@@ -1,12 +1,14 @@
+import logging
 import sys
 import traceback
-import logging
+
 
 def handle_error(exception, logger=logging):
     ex_type, ex_value, ex_traceback = sys.exc_info()
 
     logger.error("Exception type : %s " % ex_type.__name__)
     logger.error("Exception message : %s" % ex_value)
+
 
 def handle_error_with_trace(exception, logger=logging):
     ex_type, ex_value, ex_traceback = sys.exc_info()

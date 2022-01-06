@@ -28,10 +28,10 @@ class TransactionList:
             if transaction.category == "Other" and transaction.credit > 0:
                 transaction.category = "Misc Income"
 
-        trans_copy.sort(key= lambda t: t.category)
+        trans_copy.sort(key=lambda t: t.category)
 
         return trans_copy
- 
+
     @staticmethod
     def sum_debits(transactions: list[Transaction]) -> float:
         return functools.reduce(lambda a, b: a + b, [t.debit for t in transactions])
