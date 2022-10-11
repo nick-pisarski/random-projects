@@ -11,11 +11,6 @@ log = logging.getLogger(path.basename(__file__))
 
 class SixNode:
     """A node with 6 pointers"""
-    """
-    How do two nodes connect together?
-    
-    old_node.set_side(Side.XXXX, new_node)
-    """
     sides: Dict[Side, Optional[SixNode]] = {
         Side.NORTH: None,
         Side.SOUTH: None,
@@ -28,8 +23,10 @@ class SixNode:
     list_id: int = None,
     data: Optional[Any] = None
 
-    def set_side(self, side: Side, value: SixNode) -> None:
-        self.sides[side] = value
+    def set_side(self, side: Side, new_node: SixNode) -> None:
+        if self.sides[side] is None:
+            raise Exception("Side occupied, please remove first.")
+        self.sides[side] = new_node
 
     def get_side(self, side: Side) -> SixNode:
         return self.sides[side]
@@ -44,6 +41,9 @@ class SixNode:
 class SixNodeList:
     head: SixNode = None
 
-    def append(self, end_node: SixNode, new_node: SixNode) -> None:
+    def append(self, end_node: SixNode, side: Side, new_node: SixNode) -> None:
         if self.head is None or self.head is end_node:
             self.head = new_node
+
+        end_node.set_side(side, new_node)
+        new_node.set_side(Side.opposite(side), new_node)
